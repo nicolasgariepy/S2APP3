@@ -16,73 +16,11 @@
 */
 
 #include <iostream>
-#include "CommunicationFPGA.h"
+#include "vecteur.h"
 
 using namespace std;
 
-enum Registre {SW=8, BTN=9, LD=10, AN0=11, AN1=12, AN2=13, AN3=14};
 
-int main(int argc, char * argv[]) {
-	CommunicationFPGA fpga;
-	int val;
+int main(){
 
-	if(!fpga.estOk())
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	if(!fpga.lireRegistre(SW, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-	
-	cout << "SW: " << hex << val << endl;
-
-	if(!fpga.lireRegistre(BTN, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	cout << "BTN: "  << hex << val  << endl;
-
-	val = 0xac;
-	if(!fpga.ecrireRegistre(LD, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-    val = 0xa;
-	if(!fpga.ecrireRegistre(AN3, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	val++;
-	if(!fpga.ecrireRegistre(AN2, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	val++;
-	if(!fpga.ecrireRegistre(AN1, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	val++;
-
-	if(!fpga.ecrireRegistre(AN0, val))
-	{
-		cout << fpga.messageErreur() << endl;
-		return 1;
-	}
-
-	return 0;
 }

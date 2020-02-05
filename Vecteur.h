@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include "MonInterface.h"
+
 using namespace std;
 
 template <typename T>
@@ -79,15 +81,19 @@ Vecteur<T>&  Vecteur<T>::operator -- () {
 
 template <typename T>
 ostream & Vecteur<T>::afficher(int index, ostream & s) {
-	if (T == DonneesTest) {
-		s << "Type test: " << T.typeTest << endl
-			<< "Adresse switches: " << T.registreSW << endl
-			<< "Retour switches: " << dec << T.retourSW << "(" << hex << T.retourSW << ")" << endl
-			<< "Etat switches: " << dec << T.etatSW << "(" << hex << T.etatSW << ")" << endl
-			<< "Adresse leds: " << T.registreLD << endl
-			<< "Valeur leds: " << dec << T.valeurLD << "(" << hex << T.valeurLD << ")" << endl
-			<< "Etat leds: " << dec << T.etatLD << "(" << hex << T.etatLD << ")" << endl
-	}
+	return s;
+}
+
+template <>
+ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
+	s << "Type test: " << (*this)[index].typeTest << endl
+		<< "Adresse switches: " << (*this)[index].registreSW << endl
+		<< "Retour switches: " << dec << (*this)[index].retourSW << "(" << hex << (*this)[index].retourSW << ")" << endl
+		<< "Etat switches: " << dec << (*this)[index].etatSW << "(" << hex << (*this)[index].etatSW << ")" << endl
+		<< "Adresse leds: " << (*this)[index].registreLD << endl
+		<< "Valeur leds: " << dec << (*this)[index].valeurLD << "(" << hex << (*this)[index].valeurLD << ")" << endl
+		<< "Etat leds: " << dec << (*this)[index].etatLD << "(" << hex << (*this)[index].etatLD << ")\n" << endl;
+	
 	return s;
 }
 

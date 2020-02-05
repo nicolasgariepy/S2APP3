@@ -17,7 +17,7 @@ public:
 	Vecteur & operator ++ ();
 	Vecteur & operator -- ();
 	ostream & afficher(int index, ostream & s);
-	friend ostream & operator <<(ostream & s, const Vecteur<T>& vct);
+	//friend ostream & operator << <T>(ostream & s, const Vecteur<T>& vct);
 
 
 private:
@@ -34,7 +34,7 @@ Vecteur<T>::Vecteur() {
 	taille = 0;
 	courant = 0;
 	data = new T[capacite];
-	(*this)[0] = 0;
+	//(*this)[0] = 0;
 }
 
 template <typename T>
@@ -84,7 +84,7 @@ ostream & Vecteur<T>::afficher(int index, ostream & s) {
 	return s;
 }
 
-template <>
+/*template <>
 ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
 	s << "Type test: " << (*this)[index].typeTest << endl
 		<< "Adresse switches: " << (*this)[index].registreSW << endl
@@ -96,11 +96,13 @@ ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
 	
 	return s;
 }
-
+*/
+/*
 template <typename T>
-ostream & operator <<(ostream & s, const Vecteur<T>& vct) {
+ostream & operator << <T>(ostream & s, const Vecteur<T>& vct) {
 	for (int i = 0; i <= taille; i++) {
 		vct.afficher(i, &s);
 	}
 	return s;
 }
+*/

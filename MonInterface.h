@@ -11,17 +11,32 @@
 */
 #ifndef MONINTERFACE_H
 #define MONINTERFACE_H
-
+#include "Vecteur.h"
 #include "VisiTest.h"
 
 class MonInterface : public VisiTest
 {
 public:
 	MonInterface(const char *theName);
+	virtual void sauvegarder(char *nomFichier);
 public slots:
 	virtual	void testSuivant();
+	virtual void demarrer();
+	virtual void arreter();
+	virtual void vider();
+	virtual void modeFile();
+	virtual void modePile();
+
+	virtual void premier();
+	virtual void dernier();
+	virtual void precedent();
+	virtual void suivant();
+
+
 private:
 	DonneesTest donnee;
+	Vecteur<DonneesTest> archive;
+	int archiver;
 };
 
 #endif // MONINTERFACE_H

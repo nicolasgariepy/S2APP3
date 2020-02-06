@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "MonInterface.h"
+#include "VisiTest.h"
 
 using namespace std;
 
@@ -11,20 +12,21 @@ public:
 	~Vecteur();
 	int getTaille() { return taille; }
 	int getCapacite() { return capacite; }
-	int getCourant() { return courant; }
+	bool estVide() { return (taille == 0); }
+	void vider();
 	T & operator [] (int i) { return(data[i]); }
 	void operator += (T ajout);
 	Vecteur & operator ++ ();
 	Vecteur & operator -- ();
-	ostream & afficher(int index, ostream & s);
+	ostream & afficher(int index, ostream & s) { return s;  }
 	//friend ostream & operator << <T>(ostream & s, const Vecteur<T>& vct);
 
+	int courant;
 
 private:
 	T* data;
 	int taille;
 	int capacite;
-	int courant;
 	void doubler();
 };
 
@@ -43,11 +45,21 @@ Vecteur<T>::~Vecteur() {
 }
 
 template <typename T>
+void Vecteur<T>::vider() {
+	capacite = 1;
+	taille = 0;
+	courant = 0;
+	delete [] data;
+	data = new T[capacite];
+}
+
+template <typename T>
 void Vecteur<T>::operator+=(T ajout) {
 	if (taille >= capacite) {
 		doubler();
 	}
-	(*this)[taille++] = ajout;
+	//(*this)[taille++] = ajout;
+	this->data[taille++] = ajout;
 }
 
 template <typename T>
@@ -58,10 +70,12 @@ void Vecteur<T>::doubler() {
 		*(buffer + i) = *(data + i);
 	}
 	
+	/*
 	for (int i = taille + 1; i <= capacite - 1; i++) {
 		*(buffer + i) = 0;
 	}
-	
+	*/
+
 	data = buffer;
 }
 
@@ -79,13 +93,10 @@ Vecteur<T>&  Vecteur<T>::operator -- () {
 	return *this;
 }
 
-template <typename T>
-ostream & Vecteur<T>::afficher(int index, ostream & s) {
-	return s;
-}
 
-/*template <>
+template <>
 ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
+	
 	s << "Type test: " << (*this)[index].typeTest << endl
 		<< "Adresse switches: " << (*this)[index].registreSW << endl
 		<< "Retour switches: " << dec << (*this)[index].retourSW << "(" << hex << (*this)[index].retourSW << ")" << endl
@@ -94,15 +105,17 @@ ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
 		<< "Valeur leds: " << dec << (*this)[index].valeurLD << "(" << hex << (*this)[index].valeurLD << ")" << endl
 		<< "Etat leds: " << dec << (*this)[index].etatLD << "(" << hex << (*this)[index].etatLD << ")\n" << endl;
 	
+	
 	return s;
+	
 }
-*/
-/*
+
+
+
 template <typename T>
-ostream & operator << <T>(ostream & s, const Vecteur<T>& vct) {
+ostream & operator << (ostream & s, const Vecteur<T>& vct) {
 	for (int i = 0; i <= taille; i++) {
 		vct.afficher(i, &s);
 	}
 	return s;
 }
-*/

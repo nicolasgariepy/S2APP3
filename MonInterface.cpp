@@ -10,8 +10,12 @@
 *                  Université de Sherbrooke  
 */
 #include <QStyleFactory>
+#include <iostream>
+#include <fstream>  
 #include "MonInterface.h"
 #include "CommunicationFPGA.h"
+
+using namespace std;
 
 MonInterface::MonInterface(const char * theName) : VisiTest(theName)
 {
@@ -28,8 +32,8 @@ MonInterface::MonInterface(const char * theName) : VisiTest(theName)
 	resetTest();
 	resetArchive();
 
-	archiver = 0;
-	archive.mode = 1;
+	demarrer();
+	archive.modeFile();
 }
 
 void MonInterface::testSuivant()
@@ -91,15 +95,17 @@ void MonInterface::testSuivant()
 	{
 		archive += donnee;
 		setArchive(donnee);
-		if (archive.mode){
-			archive.courant = archive.getTaille();
+		if (archive.getMode()){
+			archive.courant = archive.getTaille() - 1;
 		}
 		else{
-			archive.courant = 1;
+			archive.courant = 0;
 		}
-		setArchive(archive.courant, archive.getTaille());
+		setArchive(archive.courant + 1, archive.getTaille());
 		message("Test archivé");
 	}
+
+	archive.afficher(archive.courant, cout);
 		
 }
 
@@ -119,8 +125,7 @@ void MonInterface::vider(){
 	resetArchive();
 }
 void MonInterface::modeFile(){
-	if (archive.estVide()) {
-		archive.mode = 1;
+	if (archive.modeFile()) {
 		message("Mode file");
 	}
 	else{
@@ -128,8 +133,7 @@ void MonInterface::modeFile(){
 	}
 }
 void MonInterface::modePile(){
-	if (archive.estVide()) {
-		archive.mode = 0;
+	if (archive.modePile()) {
 		message("Mode Pile");
 	}
 	else {
@@ -144,9 +148,9 @@ void MonInterface::premier() {
 }
 
 void MonInterface::dernier(){
-	archive.courant = archive.getTaille();
+	archive.courant = archive.getTaille() - 1;
 	setArchive(archive[archive.courant]);
-	setArchive(archive.courant, archive.getTaille());
+	setArchive(archive.courant + 1, archive.getTaille());
 }
 
 void MonInterface::precedent(){
@@ -162,5 +166,6 @@ void MonInterface::suivant(){
 }
 
 void MonInterface::sauvegarder(char *nomFichier) {
-
+	ofstream dataLog(nomFichier);
+	dataLog << archive;
 }

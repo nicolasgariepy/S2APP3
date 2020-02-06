@@ -5,6 +5,10 @@
 
 using namespace std;
 
+template <typename T> class Vecteur;
+template <typename T> ostream& operator<<(ostream&, const Vecteur<T> & vct);
+
+
 template <typename T>
 class Vecteur {
 public:
@@ -18,17 +22,20 @@ public:
 	void operator += (T ajout); 
 	Vecteur & operator ++ ();
 	Vecteur & operator -- ();
-	ostream & afficher(int index, ostream & s) { return s;  }
-	//friend ostream & operator << <T>(ostream & s, const Vecteur<T>& vct);
-
+	ostream & afficher(int index, ostream & os) { return os;  }
+	friend ostream& operator<< <T>(ostream& os, const Vecteur<T>& vct);
+	bool modeFile();
+	bool modePile();
+	bool getMode() { return mode; }
 	int courant;
-	bool mode; //0 = pile, 1 = file
 
 private:
 	T* data;
 	int taille;
 	int capacite;
 	void doubler();
+	bool mode; //0 = pile, 1 = file
+
 };
 
 template <typename T>
@@ -65,9 +72,10 @@ void Vecteur<T>::operator+=(T ajout) {
 	}
 	else {
 		for (int i = taille; i > 0; i--) {
-			data[i - 1] = data[i];
+			data[i] = data[i - 1];
 		}
 		data[0] = ajout;
+		taille++;
 	}
 }
 
@@ -97,9 +105,9 @@ Vecteur<T>&  Vecteur<T>::operator -- () {
 
 
 template <>
-ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
+ostream & Vecteur<DonneesTest>::afficher(int index, ostream & os) {
 	
-	s << "Type test: " << (*this)[index].typeTest << endl
+	os << "Type test: " << (*this)[index].typeTest << endl
 		<< "Adresse switches: " << (*this)[index].registreSW << endl
 		<< "Retour switches: " << dec << (*this)[index].retourSW << "(" << hex << (*this)[index].retourSW << ")" << endl
 		<< "Etat switches: " << dec << (*this)[index].etatSW << "(" << hex << (*this)[index].etatSW << ")" << endl
@@ -108,16 +116,37 @@ ostream & Vecteur<DonneesTest>::afficher(int index, ostream & s) {
 		<< "Etat leds: " << dec << (*this)[index].etatLD << "(" << hex << (*this)[index].etatLD << ")\n" << endl;
 	
 	
-	return s;
-	
+	return os;	
 }
-
-
 
 template <typename T>
-ostream & operator << (ostream & s, const Vecteur<T>& vct) {
-	for (int i = 0; i <= taille; i++) {
-		vct.afficher(i, &s);
+ostream& operator<<(ostream& os, const Vecteur<T>& vct) {
+	for (int i = 0; i <= vct.getTaille(); i++) {
+		vct.afficher(i, os);
 	}
-	return s;
+	return os;
 }
+
+template <typename T>
+bool Vecteur<T>::modeFile(){
+	if (estVide()) {
+		mode = 1;	
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+template <typename T>
+bool Vecteur<T>::modePile(){
+	if (estVide()) {
+		mode = 0;
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+

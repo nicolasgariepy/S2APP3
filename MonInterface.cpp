@@ -29,7 +29,7 @@ MonInterface::MonInterface(const char * theName) : VisiTest(theName)
 	resetArchive();
 
 	archiver = 0;
-	mode = 1;
+	archive.mode = 1;
 }
 
 void MonInterface::testSuivant()
@@ -91,7 +91,7 @@ void MonInterface::testSuivant()
 	{
 		archive += donnee;
 		setArchive(donnee);
-		if (mode){
+		if (archive.mode){
 			archive.courant = archive.getTaille();
 		}
 		else{
@@ -115,10 +115,12 @@ void MonInterface::arreter() {
 	message("Archive désactivée");
 }
 void MonInterface::vider(){
+	archive.vider();
+	resetArchive();
 }
 void MonInterface::modeFile(){
 	if (archive.estVide()) {
-		mode = 1;
+		archive.mode = 1;
 		message("Mode file");
 	}
 	else{
@@ -127,7 +129,7 @@ void MonInterface::modeFile(){
 }
 void MonInterface::modePile(){
 	if (archive.estVide()) {
-		mode = 0;
+		archive.mode = 0;
 		message("Mode Pile");
 	}
 	else {
@@ -136,49 +138,27 @@ void MonInterface::modePile(){
 }
 
 void MonInterface::premier() {
-	if (mode) {
-		archive.courant = 0;
-		setArchive(archive[archive.courant]);
-		setArchive(archive.courant + 1, archive.getTaille() + 1);
-	}
-	else {
-		archive.courant = archive.getTaille();
-		setArchive(archive[archive.courant]);
-		setArchive(1, archive.getTaille());
-	}
+	archive.courant = 0;
+	setArchive(archive[archive.courant]);
+	setArchive(archive.courant + 1, archive.getTaille());
 }
 
 void MonInterface::dernier(){
-	if (mode) {
-		archive.courant = archive.getTaille();
-		setArchive(archive[archive.courant]);
-		setArchive(archive.courant + 1, archive.getTaille() + 1);
-	}
-	else {
-
-	}
+	archive.courant = archive.getTaille();
+	setArchive(archive[archive.courant]);
+	setArchive(archive.courant, archive.getTaille());
 }
 
 void MonInterface::precedent(){
-	if (mode) {
-		--archive;
-		setArchive(archive[archive.courant]);
-		setArchive(archive.courant + 1, archive.getTaille() + 1);
-	}
-	else {
-
-	}
+	--archive;
+	setArchive(archive[archive.courant]);
+	setArchive(archive.courant + 1, archive.getTaille());
 }
 
 void MonInterface::suivant(){
-	if (mode) {
-		++archive;
-		setArchive(archive[archive.courant]);
-		setArchive(archive.courant + 1, archive.getTaille() + 1);
-	}
-	else {
-
-	}
+	++archive;
+	setArchive(archive[archive.courant]);
+	setArchive(archive.courant + 1, archive.getTaille());
 }
 
 void MonInterface::sauvegarder(char *nomFichier) {

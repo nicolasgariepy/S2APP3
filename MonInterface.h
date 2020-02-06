@@ -37,7 +37,6 @@ private:
 	DonneesTest donnee; //Contient le test actif
 	Vecteur<DonneesTest> archive; //Contient les test archivées
 	bool archiver; //0 = ne pas archiver les tests, 1 = archiver
-	bool mode; //0 = pile, 1 = file
 };
 
 #endif // MONINTERFACE_H

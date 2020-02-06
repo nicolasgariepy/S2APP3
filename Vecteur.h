@@ -15,13 +15,14 @@ public:
 	bool estVide() { return (taille == 0); }
 	void vider();
 	T & operator [] (int i) { return(data[i]); }
-	void operator += (T ajout);
+	void operator += (T ajout); 
 	Vecteur & operator ++ ();
 	Vecteur & operator -- ();
 	ostream & afficher(int index, ostream & s) { return s;  }
 	//friend ostream & operator << <T>(ostream & s, const Vecteur<T>& vct);
 
 	int courant;
+	bool mode; //0 = pile, 1 = file
 
 private:
 	T* data;
@@ -59,7 +60,15 @@ void Vecteur<T>::operator+=(T ajout) {
 		doubler();
 	}
 	//(*this)[taille++] = ajout;
-	this->data[taille++] = ajout;
+	if (mode) {
+		data[taille++] = ajout;
+	}
+	else {
+		for (int i = taille; i > 0; i--) {
+			data[i - 1] = data[i];
+		}
+		data[0] = ajout;
+	}
 }
 
 template <typename T>
@@ -69,19 +78,12 @@ void Vecteur<T>::doubler() {
 	for (int i = 0; i <= taille; i++) {
 		*(buffer + i) = *(data + i);
 	}
-	
-	/*
-	for (int i = taille + 1; i <= capacite - 1; i++) {
-		*(buffer + i) = 0;
-	}
-	*/
-
 	data = buffer;
 }
 
 template <typename T>
 Vecteur<T>& Vecteur<T>::operator ++ () {
-	if (courant < taille)
+	if (courant < taille - 1)
 		++courant;
 	return *this;
 }

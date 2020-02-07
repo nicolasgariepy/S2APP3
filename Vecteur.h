@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include "MonInterface.h"
@@ -118,9 +119,9 @@ ostream & Vecteur<DonneesTest>::afficher(int index, ostream & os) {
 }
 
 template <typename T>
-ostream &operator<<(ostream &output, const Vecteur<T> & vct) {
+ostream &operator<<(ostream &output, Vecteur<T> & vct) {
 	for(int i = 0; i < vct.getTaille(); i++){
-		output << vct[i];
+		vct.afficher(i, output);
 	}
 	return output;
 }

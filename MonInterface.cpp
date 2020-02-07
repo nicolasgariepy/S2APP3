@@ -9,6 +9,7 @@
 *   Copyright 2013 Département de génie électrique et génie informatique
 *                  Université de Sherbrooke  
 */
+
 #include <QStyleFactory>
 #include <iostream>
 #include <fstream>  
@@ -103,10 +104,7 @@ void MonInterface::testSuivant()
 		}
 		setArchive(archive.courant + 1, archive.getTaille());
 		message("Test archivé");
-	}
-
-	archive.afficher(archive.courant, cout);
-		
+	}		
 }
 
 
@@ -168,4 +166,5 @@ void MonInterface::suivant(){
 void MonInterface::sauvegarder(char *nomFichier) {
 	ofstream dataLog(nomFichier);
 	dataLog << archive;
+	cout << archive;
 }

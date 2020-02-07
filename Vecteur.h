@@ -6,8 +6,6 @@
 using namespace std;
 
 template <typename T> class Vecteur;
-template <typename T> ostream& operator<<(ostream&, const Vecteur<T> & vct);
-
 
 template <typename T>
 class Vecteur {
@@ -19,11 +17,11 @@ public:
 	bool estVide() { return (taille == 0); }
 	void vider();
 	T & operator [] (int i) { return(data[i]); }
-	void operator += (T ajout); 
+	void operator += (T ajout);
 	Vecteur & operator ++ ();
 	Vecteur & operator -- ();
-	ostream & afficher(int index, ostream & os) { return os;  }
-	friend ostream& operator<< <T>(ostream& os, const Vecteur<T>& vct);
+	ostream & afficher(int index, ostream & os) { return os; }
+	friend ostream &operator<<(ostream &output, const Vecteur & vct);
 	bool modeFile();
 	bool modePile();
 	bool getMode() { return mode; }
@@ -120,11 +118,11 @@ ostream & Vecteur<DonneesTest>::afficher(int index, ostream & os) {
 }
 
 template <typename T>
-ostream& operator<<(ostream& os, const Vecteur<T>& vct) {
-	for (int i = 0; i <= vct.getTaille(); i++) {
-		vct.afficher(i, os);
+ostream &operator<<(ostream &output, const Vecteur<T> & vct) {
+	for(int i = 0; i < vct.getTaille(); i++){
+		output << vct[i];
 	}
-	return os;
+	return output;
 }
 
 template <typename T>
@@ -148,5 +146,3 @@ bool Vecteur<T>::modePile(){
 		return 0;
 	}
 }
-
-

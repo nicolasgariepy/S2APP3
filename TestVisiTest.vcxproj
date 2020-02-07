@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0456C233-17C1-3228-9C99-789A8AB27A4F}</ProjectGuid>
+    <ProjectGuid>{CE0FE838-CF48-3AE4-8479-C9CE7E0CFF72}</ProjectGuid>
     <RootNamespace>TestVisiTest</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>

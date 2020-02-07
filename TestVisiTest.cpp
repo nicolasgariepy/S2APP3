@@ -19,5 +19,5 @@ int main( int argc, char ** argv )
  
 	MonInterface gui("TestVisiTest V5.1");
 
-   app.exec();
+	app.exec();
 }
